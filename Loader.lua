@@ -1,30 +1,26 @@
---[[
-IronBrew:tm: obfuscation; Version 2.7.0
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+local oldfunc
 
+oldfunc = hookfunction(Instance.new("Player").Kick, function(self, ...)
+    return wait(9e9)
+end)
 
-          _____                    _____            _____                    _____                    _____          
-         /\    \                  /\    \          /\    \                  /\    \                  /\    \         
-        /::\    \                /::\____\        /::\    \                /::\____\                /::\    \        
-       /::::\    \              /:::/    /       /::::\    \              /:::/    /               /::::\    \       
-      /::::::\    \            /:::/    /       /::::::\    \            /:::/    /               /::::::\    \      
-     /:::/\:::\    \          /:::/    /       /:::/\:::\    \          /:::/    /               /:::/\:::\    \     
-    /:::/__\:::\    \        /:::/    /       /:::/__\:::\    \        /:::/____/               /:::/__\:::\    \    
-   /::::\   \:::\    \      /:::/    /       /::::\   \:::\    \      /::::\    \              /::::\   \:::\    \   
-  /::::::\   \:::\    \    /:::/    /       /::::::\   \:::\    \    /::::::\    \   _____    /::::::\   \:::\    \  
- /:::/\:::\   \:::\    \  /:::/    /       /:::/\:::\   \:::\____\  /:::/\:::\    \ /\    \  /:::/\:::\   \:::\    \ 
-/:::/  \:::\   \:::\____\/:::/____/       /:::/  \:::\   \:::|    |/:::/  \:::\    /::\____\/:::/  \:::\   \:::\____\
-\::/    \:::\  /:::/    /\:::\    \       \::/    \:::\  /:::|____|\::/    \:::\  /:::/    /\::/    \:::\  /:::/    /
- \/____/ \:::\/:::/    /  \:::\    \       \/_____/\:::\/:::/    /  \/____/ \:::\/:::/    /  \/____/ \:::\/:::/    / 
-          \::::::/    /    \:::\    \               \::::::/    /            \::::::/    /            \::::::/    /  
-           \::::/    /      \:::\    \               \::::/    /              \::::/    /              \::::/    /   
-           /:::/    /        \:::\    \               \::/____/               /:::/    /               /:::/    /    
-          /:::/    /          \:::\    \               ~~                    /:::/    /               /:::/    /     
-         /:::/    /            \:::\    \                                   /:::/    /               /:::/    /      
-        /:::/    /              \:::\____\                                 /:::/    /               /:::/    /       
-        \::/    /                \::/    /                                 \::/    /                \::/    /        
-         \/____/                  \/____/                                   \/____/                  \/____/         
-                                                                                                                     
+setreadonly(mt, false)
 
-]]
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    if method:lower() == "kick" then
+        return wait(9e9)
+    end
+    return old(self, unpack(args))
+end)
 
-local d=string.byte;local f=string.char;local c=string.sub;local b=table.concat;local l=table.insert;local u=math.ldexp;local s=getfenv or function()return _ENV end;local l=setmetatable;local h=select;local i=unpack or table.unpack;local r=tonumber;local function V(d)local e,n,t="","",{}local a=256;local o={}for l=0,a-1 do o[l]=f(l)end;local l=1;local function i()local e=r(c(d,l,l),36)l=l+1;local n=r(c(d,l,l+e-1),36)l=l+e;return n end;e=f(i())t[1]=e;while l<#d do local l=i()if o[l]then n=o[l]else n=e..c(e,1,1)end;o[a]=e..c(n,1,1)t[#t+1],e,a=n,n,a+1 end;return table.concat(t)end;local r=V('25725927525B25527525926226425S26025B24S27926N26025P25T25W26626425L26026126M25L25U25R26426227E25227926S25V27P27V26625L25W25U25V25B24Z27926X27C27W26026T25K25S26425V25U25W26125B25327926Z25W25R26026M26025R25N28X25A27929229325127924V28Q27525827924D29325925B25929C29329129H29227829K27925425923X27625927427429329F29A29329Y275');local o=bit and bit.bxor or function(l,n)local e,o=1,0 while l>0 and n>0 do local c,a=l%2,n%2 if c~=a then o=o+e end l,n,e=(l-c)/2,(n-a)/2,e*2 end if l<n then l=n end while l>0 do local n=l%2 if n>0 then o=o+e end l,e=(l-n)/2,e*2 end return o end local function n(n,l,e)if e then local l=(n/2^(l-1))%2^((e-1)-(l-1)+1);return l-l%1;else local l=2^(l-1);return(n%(l+l)>=l)and 1 or 0;end;end;local l=1;local function e()local a,c,n,e=d(r,l,l+3);a=o(a,189)c=o(c,189)n=o(n,189)e=o(e,189)l=l+4;return(e*16777216)+(n*65536)+(c*256)+a;end;local function t()local e=o(d(r,l,l),189);l=l+1;return e;end;local function a()local e,n=d(r,l,l+2);e=o(e,189)n=o(n,189)l=l+2;return(n*256)+e;end;local function W()local o=e();local l=e();local c=1;local o=(n(l,1,20)*(2^32))+o;local e=n(l,21,31);local l=((-1)^n(l,32));if(e==0)then if(o==0)then return l*0;else e=1;c=0;end;elseif(e==2047)then return(o==0)and(l*(1/0))or(l*(0/0));end;return u(l,e-1023)*(c+(o/(2^52)));end;local V=e;local function u(e)local n;if(not e)then e=V();if(e==0)then return'';end;end;n=c(r,l,l+e-1);l=l+e;local e={}for l=1,#n do e[l]=f(o(d(c(n,l,l)),189))end return b(e);end;local l=e;local function b(...)return{...},h('#',...)end local function f()local d={};local o={};local l={};local r={d,o,nil,l};local l=e()local c={}for n=1,l do local e=t();local l;if(e==1)then l=(t()~=0);elseif(e==3)then l=W();elseif(e==2)then l=u();end;c[n]=l;end;for l=1,e()do o[l-1]=f();end;for r=1,e()do local l=t();if(n(l,1,1)==0)then local o=n(l,2,3);local t=n(l,4,6);local l={a(),a(),nil,nil};if(o==0)then l[3]=a();l[4]=a();elseif(o==1)then l[3]=e();elseif(o==2)then l[3]=e()-(2^16)elseif(o==3)then l[3]=e()-(2^16)l[4]=a();end;if(n(t,1,1)==1)then l[2]=c[l[2]]end if(n(t,2,2)==1)then l[3]=c[l[3]]end if(n(t,3,3)==1)then l[4]=c[l[4]]end d[r]=l;end end;r[3]=t();return r;end;local function u(l,e,a)local n=l[1];local e=l[2];local l=l[3];return function(...)local c=n;local e=e;local o=l;local l=b local n=1;local l=-1;local r={};local d={...};local t=h('#',...)-1;local l={};local e={};for l=0,t do if(l>=o)then r[l-o]=d[l+1];else e[l]=d[l+1];end;end;local l=t-o+1 local l;local o;while true do l=c[n];o=l[1];if o<=5 then if o<=2 then if o<=0 then local n=l[2]e[n](i(e,n+1,l[3]))elseif o==1 then e[l[2]]=a[l[3]];else e[l[2]]=l[3]/l[4];end;elseif o<=3 then e[l[2]]=e[l[3]][l[4]];elseif o==4 then e[l[2]]=a[l[3]];else do return end;end;elseif o<=8 then if o<=6 then do return end;elseif o==7 then local n=l[2]e[n](i(e,n+1,l[3]))else local n=l[2];local o=e[l[3]];e[n+1]=o;e[n]=o[l[4]];end;elseif o<=10 then if o==9 then e[l[2]]=l[3]/l[4];else local t;local o;e[l[2]]=a[l[3]];n=n+1;l=c[n];e[l[2]]=e[l[3]][l[4]];n=n+1;l=c[n];e[l[2]]=e[l[3]][l[4]];n=n+1;l=c[n];e[l[2]]=e[l[3]][l[4]];n=n+1;l=c[n];o=l[2];t=e[l[3]];e[o+1]=t;e[o]=t[l[4]];n=n+1;l=c[n];e[l[2]]=l[3]/l[4];n=n+1;l=c[n];o=l[2]e[o](i(e,o+1,l[3]))n=n+1;l=c[n];do return end;end;elseif o>11 then e[l[2]]=e[l[3]][l[4]];else local o=l[2];local n=e[l[3]];e[o+1]=n;e[o]=n[l[4]];end;n=n+1;end;end;end;return u(f(),{},s())();
+if game.ReplicatedStorage.Interaction:FindFirstChild("Ban") then
+    game.ReplicatedStorage.Interaction.Ban:Destroy()
+end
+
+if game.ReplicatedStorage.Transactions:FindFirstChild("AddLog") then 
+    game.ReplicatedStorage.Transactions.AddLog:Destroy()
+end
