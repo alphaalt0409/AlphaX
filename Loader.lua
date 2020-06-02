@@ -1,9 +1,10 @@
 local mt = getrawmetatable(game)
 local old = mt.__namecall
-local oldfunc
+local oldfunc 
+local hook = hookfunc or hookfunction
 
-oldfunc = hookfunction(Instance.new("Player").Kick, function(self, ...)
-    return wait(9e9)
+oldfunc = hook(Instance.new("Player").Kick, function(self, ...)
+    return print("Anti Kick Actived")
 end)
 
 setreadonly(mt, false)
@@ -12,7 +13,7 @@ mt.__namecall = newcclosure(function(self, ...)
     local method = getnamecallmethod()
     local args = {...}
     if method:lower() == "kick" then
-        return wait(9e9)
+        return print("Anti Kick Actived")
     end
     return old(self, unpack(args))
 end)
