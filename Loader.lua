@@ -3,6 +3,7 @@ local old = mt.__namecall
 local oldfunc 
 local hook = hookfunc or hookfunction
 
+
 oldfunc = hook(Instance.new("Player").Kick, function(self, ...)
     return print("Anti Kick Actived")
 end)
